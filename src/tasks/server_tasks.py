@@ -3,7 +3,8 @@ import json
 import os
 from datetime import datetime
 from time import sleep
-from src.api.baremetal import send_baremetal_create_request, get_instance_ip_address
+from src.api.baremetal import send_baremetal_create_request, get_instance_ip_address, get_baremetal_overview
+from src.db.database import Database
 from src.task_manager.task_manager import wait_for_task_sync
 from src.infrastructure.server_checks import (
     check_config_over_ssh,
@@ -15,16 +16,15 @@ from src.config.settings import TMP_PATH
 
 logger = logging.getLogger(__name__)
 
-def create_one_server(server_id: int) -> None:
+def create_one_server(server_id: int, db: Database = None) -> None:
     """
     Creates a server with the given ID and returns data for reporting.
-
-    Args:
-        server_id: Unique identifier for the server.
 
     Returns:
         Dictionary with report data: server_id, status, created_at, error, details,
         cpu, ram, disk, console_ok, ping, speed.
+        :param server_id: Unique identifier for the server.
+        :param db: Reports database.
     """
     result = {
         "server_id": str(server_id),
@@ -42,11 +42,15 @@ def create_one_server(server_id: int) -> None:
     instance_id = "xxx"
     ip_address = "xxx"
 
+    if db is None:
+        db = Database()
+
     try:
         # Create server
         task_ids = send_baremetal_create_request(server_id)
         task = wait_for_task_sync(task_ids.tasks[0], sleep_sec=10)
         instance_id = task.created_resources.instances[0]
+        hostname = get_baremetal_overview(instance_id).name
         ip_address = get_instance_ip_address(instance_id)
 
         # Wait for server to boot
@@ -89,6 +93,9 @@ def create_one_server(server_id: int) -> None:
             "ping": config.get("ping"),
             "speed": config.get("speed")
         })
+
+        #Save to DB
+        db.save_baremetal_data(hostname, instance_id)
 
     except Exception as e:
         logger.error(f"Error creating server {server_id}: {e}", exc_info=True)

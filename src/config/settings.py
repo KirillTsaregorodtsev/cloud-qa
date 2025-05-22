@@ -18,11 +18,11 @@ def get_project_root() -> Path:
 
 #=============================INIT SETTINGS FOR TESTS=======================================
 JIRA_TASK_ID = "GCLOUD2-18858"
-FLAVOR = "bm3-infrastructure-small"
-REGION_ID = RegionID.ED_16
+FLAVOR = "bm1-hf-medium"
+REGION_ID = RegionID.ANX_2
 PROJECT_ID = 309102
 OFFSET = 0
-NUMBER_OF_SERVERS = 13
+NUMBER_OF_SERVERS = 1
 SSH_KEY_NAME = "qa-chk-bare"
 SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(Path.home() / "Downloads/qa-chk-bare"))
 
@@ -31,8 +31,8 @@ PROJECT_ROOT = get_project_root()
 MAX_WORKERS = os.getenv("MAX_WORKERS", 5)
 LOG_FILE = "logs/app.log"
 REPORT_FILE = os.path.join(PROJECT_ROOT, "reports", f"{JIRA_TASK_ID}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
-#DB_FILE = "report.db"
-#DB_INIT_SQL = "sql/init_db.sql"
+DB_FILE = "data/report.db"
+DB_INIT_SQL = "sql/init_db.sql"
 TMP_PATH = PROJECT_ROOT / "tmp"
 PROD_API_KEY = os.getenv("PROD_API_KEY")
 BASE_URL = "https://api.gcore.com"
