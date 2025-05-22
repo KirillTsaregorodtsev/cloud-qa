@@ -4,7 +4,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from config.enums import RegionID
+from src.config.enums import RegionID
 
 load_dotenv()
 
