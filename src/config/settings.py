@@ -18,11 +18,11 @@ def get_project_root() -> Path:
 
 #=============================INIT SETTINGS FOR TESTS=======================================
 JIRA_TASK_ID = "GCLOUD2-18858"
-FLAVOR = "bm3-infrastructure-small"
-REGION_ID = RegionID.ED_16
+FLAVOR = "bm1-hf-medium"
+REGION_ID = RegionID.Manassas
 PROJECT_ID = 309102
 OFFSET = 0
-NUMBER_OF_SERVERS = 13
+NUMBER_OF_SERVERS = 1
 SSH_KEY_NAME = "qa-chk-bare"
 SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(Path.home() / "Downloads/qa-chk-bare"))
 

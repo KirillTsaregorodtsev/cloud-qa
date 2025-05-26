@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from gcore.types.cloud import TaskIDList, BaremetalFlavorList, Instance
 
@@ -51,3 +52,23 @@ def get_baremetal_flavors(region_id=client.cloud_region_id) -> BaremetalFlavorLi
 def get_baremetal_overview(instance_id: str) -> Instance:
     logger.info(f"Getting baremetal overview for {instance_id}")
     return client.cloud.instances.get(instance_id=instance_id)
+
+def delete_baremetal_instance(instance_id: str) -> TaskIDList:
+    logger.info(f"Deleting baremetal instance {instance_id}")
+    try:
+        return client.cloud.instances.delete(instance_id=instance_id)
+    except Exception as e:
+        logger.error(f"Failed to delete baremetal instance {instance_id}: {e}")
+        raise ValueError(f"Failed to delete baremetal instance {instance_id}: {e}")
+
+def get_baremetal_list(flavor_id:str) -> tuple[int, list[str]]:
+    logger.info("Getting baremetal list")
+    result = []
+    try:
+        bm_list = client.cloud.baremetal.servers.list(flavor_id=flavor_id)
+        for bm in bm_list.results:
+            result.append(bm.id)
+        return bm_list.count, result
+    except Exception as e:
+        logger.error(f"Failed to get baremetal list: {e}")
+        raise ValueError(f"Failed to get baremetal list: {e}")

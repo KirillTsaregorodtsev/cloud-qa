@@ -1,4 +1,15 @@
 # Cloud QA Team utils
+This repository contains various utilities and scripts for the Cloud QA team, including tools for managing cloud resources, 
+generating reports, and automating tasks.
+### Table of covering  
+
+| Test    | Description                  |
+|---------|------------------------------|
+| CPU     | check CPU's family           |
+| RAM     | Shows RAM capacity           |
+| DISK    | Shows lsblk output           |
+| CONSOLE | Check the VNC Console access |
+| PING    | check the ping to google.com |
 
 ## Installation
 
@@ -45,6 +56,8 @@ JIRA_TASK_ID = "GCLOUD2-1234"
 FLAVOR = "bm0-infrastructure-small"
 REGION_ID = RegionID.ED_16
 PROJECT_ID = 309102
+SSH_KEY_NAME = "qa-ssh-key"
+SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(Path.home() / "Downloads/qa-ssh-key"))
 ```
 ### 2. Run the script
 ```bash
