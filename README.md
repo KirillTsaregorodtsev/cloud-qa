@@ -5,8 +5,8 @@
 ### 1. Clone the project
 
 ```bash
-git clone https://gitlab-ed7.cloud.gc.onl/cloudapi/qa/team-qa.git
-cd team-qa
+git https://github.com/KirillTsaregorodtsev/cloud-qa.git
+cd cloud-qa
 ```
 
 ### 2. Create a virtual environment
