@@ -1,4 +1,6 @@
-from src.config.settings import LOG_FILE
+from src.api.baremetal import get_baremetal_list
+from src.config.settings import LOG_FILE, FLAVOR
+from src.tasks.teardown_task import cleanup_region
 from src.utils.logger import setup_logger
 from src.worker_pool.worker_pool import WorkerPool
 
@@ -11,10 +13,10 @@ def main():
     worker_pool = WorkerPool(max_workers=5)
 
     # List of server IDs
-    ids = list(range(OFFSET + 1, NUMBER_OF_SERVERS + 1))
-    logger.info(f"Creating {len(ids)} servers")
+    bm_count, ids = get_baremetal_list(flavor_id=FLAVOR)
+    logger.info(f"Count:  {bm_count} servers will be deleted. Flavor: {FLAVOR}")
     # Execute tasks
-    worker_pool.execute(lambda x: create_one_server(x), ids)
+    worker_pool.execute(lambda x: cleanup_region(instance_id=x), ids)
 
 if __name__ == "__main__":
     main()

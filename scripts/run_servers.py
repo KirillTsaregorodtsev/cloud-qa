@@ -27,7 +27,7 @@ def main():
     ids = list(range(OFFSET + 1, NUMBER_OF_SERVERS + 1))
     logger.info(f"Creating {len(ids)} servers")
     # Execute tasks
-    worker_pool.execute(lambda x: create_one_server(x), ids)
+    worker_pool.execute(lambda x: create_one_server(server_id=x), ids)
 
     # CSV report will be handled separately
     logger.info("Server creation tasks completed. JSON files saved in tmp/.")
