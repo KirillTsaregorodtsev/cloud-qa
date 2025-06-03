@@ -21,9 +21,12 @@ def main():
     """
     logger = setup_logger("server_creator", log_file=LOG_FILE)
 
+<<<<<<< HEAD
     db_connection = sqlite3.connect(os.path.join(PROJECT_ROOT, DB_FILE), timeout=10.0)
     db = Database(connection=db_connection)
 
+=======
+>>>>>>> 549c3b8 (refactor server tasks;)
     if OFFSET > NUMBER_OF_SERVERS:
         logger.error(f"OFFSET: {OFFSET} must be less than NUMBER_OF_SERVERS: {NUMBER_OF_SERVERS}")
         raise ValueError("OFFSET must be less than NUMBER_OF_SERVERS")
