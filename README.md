@@ -56,8 +56,8 @@ JIRA_TASK_ID = "GCLOUD2-1234"
 FLAVOR = "bm0-infrastructure-small"
 REGION_ID = RegionID.ED_16
 PROJECT_ID = 309102
-SSH_KEY_NAME = "qa-ssh-key"
-SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(Path.home() / "Downloads/qa-ssh-key"))
+default_key_path = Path.home() / "Downloads" / "qa-ssh-key"
+SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(default_key_path))
 ```
 ### 2. Run the script
 ```bash
@@ -65,4 +65,4 @@ python scripts/run_service.py
 ```
 
 ## Output
-The script will generate a CSV report in the _src/report_ directory.
+The script will generate a CSV report in the _reports_ directory.

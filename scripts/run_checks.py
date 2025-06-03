@@ -8,6 +8,16 @@ from src.worker_pool.worker_pool import WorkerPool
 
 
 def main():
+    """
+    Main function to run created server checks.
+
+    This function:
+        - Initializes pool of 5 workers
+        - Gets list of server IDs
+        - Gets IP addresses for each server
+        - Executes check task for each server
+        - Writes CSV report
+    """
     logger = setup_logger("server_creator", log_file=LOG_FILE)
     ips = []
 

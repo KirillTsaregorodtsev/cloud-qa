@@ -10,6 +10,12 @@ from src.utils.logger import setup_logger
 
 
 def main():
+    """
+    Main entry point for `run_servers.py`. Creates servers and checks them.
+
+    Sets up a logger, checks quotas, cleans up old JSON files, initializes a
+    worker pool, creates servers, and writes a CSV report.
+    """
     logger = setup_logger("server_creator", log_file=LOG_FILE)
 
     if OFFSET > NUMBER_OF_SERVERS:
