@@ -15,16 +15,15 @@ from src.config.settings import TMP_PATH
 
 logger = logging.getLogger(__name__)
 
-def create_one_server(server_id: int) -> None:
+
+def check_server(server_id: int, instance_id="xxx", ip_address="xxx") -> None:
     """
-    Creates a server with the given ID and returns data for reporting.
+    Checks the server with the given ID and returns data for reporting.
 
     Args:
-        server_id: Unique identifier for the server.
-
-    Returns:
-        Dictionary with report data: server_id, status, created_at, error, details,
-        cpu, ram, disk, console_ok, ping, speed.
+        :param server_id: Unique identifier for the server.
+        :param instance_id: Unique identifier for the instance.
+        :param ip_address: IP address of the server to check.
     """
     result = {
         "server_id": str(server_id),
@@ -39,21 +38,8 @@ def create_one_server(server_id: int) -> None:
         "ping": None,
         "speed": None
     }
-    instance_id = "xxx"
-    ip_address = "xxx"
 
     try:
-        # Create server
-        task_ids = send_baremetal_create_request(server_id)
-        task = wait_for_task_sync(task_ids.tasks[0], sleep_sec=10)
-        instance_id = task.created_resources.instances[0]
-        ip_address = get_instance_ip_address(instance_id)
-
-        # Wait for server to boot
-        sleep_sec = 150
-        logger.info(f"Sleeping {sleep_sec} seconds to let instance {instance_id} boot")
-        sleep(sleep_sec)
-
         # Perform checks
         config = check_config_over_ssh(ip_address, instance_id)
         disk_count = count_physical_disk(ip_address, instance_id)
@@ -115,3 +101,26 @@ def create_one_server(server_id: int) -> None:
         with open(json_file, "w", encoding="utf-8") as f:
             json.dump(error_config, f, indent=2)
         logger.info(f"Saved error config to {json_file}")
+
+    logger.info(f"Check completed for server {server_id}: {result}")
+
+
+def create_one_server(server_id: int) -> None:
+    """
+    Creates one server and checks its configuration.
+
+    Args:
+        :param server_id: Unique identifier for the server.
+    """
+    task_ids = send_baremetal_create_request(server_id)
+    task = wait_for_task_sync(task_ids.tasks[0], sleep_sec=10)
+    instance_id = task.created_resources.instances[0]
+    ip_address = get_instance_ip_address(instance_id)
+
+    # Wait for server to boot
+    sleep_sec = 150
+    logger.info(f"Sleeping {sleep_sec} seconds to let instance {instance_id} boot")
+    sleep(sleep_sec)
+
+    logger.info(f"Checking server {server_id} with instance ID {instance_id} and IP {ip_address}")
+    check_server(server_id, instance_id=instance_id, ip_address=ip_address)
