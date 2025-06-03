@@ -9,7 +9,7 @@ from src.infrastructure.server_checks import (
     check_config_over_ssh,
     check_console,
     check_ping_google,
-    check_speed_test
+    check_speed_test, count_physical_disk
 )
 from src.config.settings import TMP_PATH
 
@@ -56,6 +56,7 @@ def create_one_server(server_id: int) -> None:
 
         # Perform checks
         config = check_config_over_ssh(ip_address, instance_id)
+        disk_count = count_physical_disk(ip_address, instance_id)
         console_ok = check_console(instance_id)
         ping_result = check_ping_google(ip_address, instance_id)
         speed_result = check_speed_test()
@@ -66,7 +67,8 @@ def create_one_server(server_id: int) -> None:
             "ping": ping_result,
             "speed": speed_result,
             "ip_address": ip_address,
-            "instance_id": instance_id
+            "instance_id": instance_id,
+            "disk_count": disk_count
         })
 
         # Save to JSON
@@ -87,7 +89,8 @@ def create_one_server(server_id: int) -> None:
             "disk": config.get("disk"),
             "console_ok": str(config.get("console_ok")),
             "ping": config.get("ping"),
-            "speed": config.get("speed")
+            "speed": config.get("speed"),
+            "disk_count": config.get("disk_count")
         })
 
     except Exception as e:
@@ -104,7 +107,8 @@ def create_one_server(server_id: int) -> None:
             "instance_id": "error",
             "console_ok": "error",
             "ping": "error",
-            "speed": "error"
+            "speed": "error",
+            "disk_count": "error"
         }
         os.makedirs(TMP_PATH, exist_ok=True)
         json_file = os.path.join(TMP_PATH, f"{server_id}_config_{instance_id}_{ip_address}.json")

@@ -156,3 +156,21 @@ def check_console(instance_id) -> str:
 
 def check_speed_test():
     return 0
+
+def count_physical_disk(ip_address, instance_id) -> str:
+    """
+    Counts the number of physical disks on the server.
+
+    Returns:
+        str: Number of physical disks
+    """
+    logger.info(f"Checking ping to google.com {instance_id} at {ip_address}")
+
+    ssh_client = create_ssh_client(ip_address, instance_id)
+    command = 'lsblk -o TYPE,MODEL,SERIAL,VENDOR | grep -c "disk"'
+    try:
+        count = execute_ssh_command(ssh_client, command=command)
+        logger.info(f"Counter of physical disks: {count}")
+        return count
+    finally:
+        ssh_client.close()
