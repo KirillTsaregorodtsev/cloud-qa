@@ -25,6 +25,7 @@ class RegionID(IntEnum):
     WW_2 = Mumbai
     Helsinki = 152
     Istanbul = 50
+    TII_2 = Istanbul
     Johannesburg = 84
     Paris_2 = 100
     Santa_Clara = 34
