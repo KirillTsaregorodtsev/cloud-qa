@@ -45,7 +45,7 @@ def check_server(server_id: int, instance_id="xxx", ip_address="xxx") -> None:
         disk_count = count_physical_disk(ip_address, instance_id)
         console_ok = check_console(instance_id)
         ping_result = check_ping_google(ip_address, instance_id)
-        speed_result = check_speed_test()
+        speed_result = check_speed_test(ip_address, instance_id)
 
         # Combine results for JSON
         config.update({

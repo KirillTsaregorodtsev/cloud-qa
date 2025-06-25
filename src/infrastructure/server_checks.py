@@ -154,8 +154,29 @@ def check_console(instance_id) -> str:
     return s
 
 
-def check_speed_test():
-    return 0
+def check_speed_test(ip_address, instance_id):
+    """
+    Checks Speedtest-cli speed result for instance
+
+    Args:
+        ip_address: IP address of the instance to be tested
+        instance_id: Instance ID
+
+    Returns:
+        str: Speedtest result (Upload and Download speed)
+
+    Raises:
+        TimeoutError: If unable to connect to the instance
+    """
+    logger.info(f"Checking Speedtest for {instance_id}")
+    ssh_client = create_ssh_client(ip_address, instance_id)
+    command = 'curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 - | grep -E "Download|Upload"'
+    try:
+        result = execute_ssh_command(ssh_client, command=command)
+        logger.debug(f"Speedtest result: {result}")
+        return result
+    finally:
+        ssh_client.close()
 
 def count_physical_disk(ip_address, instance_id) -> str:
     """
