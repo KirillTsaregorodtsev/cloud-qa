@@ -3,13 +3,14 @@ This repository contains various utilities and scripts for the Cloud QA team, in
 generating reports, and automating tasks.
 ### Table of covering  
 
-| Test    | Description                  |
-|---------|------------------------------|
-| CPU     | check CPU's family           |
-| RAM     | Shows RAM capacity           |
-| DISK    | Shows lsblk output           |
-| CONSOLE | Check the VNC Console access |
-| PING    | check the ping to google.com |
+|      Test     | Description                  |
+|---------------|------------------------------|
+| CPU           | check CPU's family           |
+| RAM           | Shows RAM capacity           |
+| DISK          | Shows lsblk output           |
+| CONSOLE       | Check the VNC Console access |
+| PING          | check the ping to google.com |
+| SpeedTest.Net | check the speed conn         |
 
 ## Installation
 
