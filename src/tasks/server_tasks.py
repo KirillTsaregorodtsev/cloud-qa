@@ -12,7 +12,7 @@ from src.infrastructure.server_checks import (
     check_ping_google,
     check_speed_test
 )
-from src.config.settings import TMP_PATH
+from src.config.settings import TMP_PATH, JIRA_TASK_ID
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +89,7 @@ def create_one_server(server_id: int, db: Database = None) -> None:
             "cpu": config.get("cpu"),
             "ram": config.get("ram"),
             "disk": config.get("disk"),
+            "disk_count": 1,
             "console_ok": str(config.get("console_ok")),
             "ping": config.get("ping"),
             "speed": config.get("speed")
@@ -96,6 +97,7 @@ def create_one_server(server_id: int, db: Database = None) -> None:
 
         #Save to DB
         db.save_baremetal_data(hostname, instance_id)
+        db.save_test_report_data(task_id=JIRA_TASK_ID, **result)
 
     except Exception as e:
         logger.error(f"Error creating server {server_id}: {e}", exc_info=True)

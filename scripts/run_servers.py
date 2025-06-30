@@ -7,7 +7,8 @@ from src.infrastructure.quotas_checks import check_quotas
 from src.report.csv_reporter import CSVReporter
 from src.worker_pool.worker_pool import WorkerPool
 from src.tasks.server_tasks import create_one_server
-from src.config.settings import MAX_WORKERS, LOG_FILE, OFFSET, NUMBER_OF_SERVERS, TMP_PATH, PROJECT_ROOT, DB_FILE
+from src.config.settings import MAX_WORKERS, LOG_FILE, OFFSET, NUMBER_OF_SERVERS, TMP_PATH, PROJECT_ROOT, DB_FILE, \
+    JIRA_TASK_ID, FLAVOR
 from src.utils.logger import setup_logger
 
 
@@ -31,6 +32,7 @@ def main():
     # List of server IDs
     ids = list(range(OFFSET + 1, NUMBER_OF_SERVERS + 1))
     logger.info(f"Creating {len(ids)} servers")
+
     # Execute tasks
     worker_pool.execute(lambda x: create_one_server(x, db=db), ids)
 
@@ -38,6 +40,7 @@ def main():
     logger.info("Server creation tasks completed. JSON files saved in tmp/.")
     reporter = CSVReporter()
     reporter.write_report()
+    db.save_test_task_data(task_number=JIRA_TASK_ID, flavor=FLAVOR, server_count=NUMBER_OF_SERVERS)
 
     logger.info("Server creation and reporting completed.")
 

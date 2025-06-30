@@ -51,7 +51,6 @@ class Database:
         """Returns the existing connection or creates a new one."""
         if self.connection is not None:
             return self.connection
-        # Устанавливаем таймаут 10 секунд для предотвращения ошибки "database is locked"
         return sqlite3.connect(self.db_file, timeout=10.0)
 
     def save_baremetal_data(self, hostname: str, node_id: str) -> None:
@@ -71,4 +70,67 @@ class Database:
                 logger.info(f"Saved baremetal {node_id} data to database")
         except sqlite3.Error as e:
             logger.error(f"Failed to save baremetal {node_id} data: {e}")
+            raise e
+
+    def save_test_task_data(self, **kwargs) -> None:
+        """Saves test task data to the database."""
+        try:
+            task_number = kwargs["task_number"]
+            flavor = kwargs["flavor"]
+            server_count = kwargs["server_count"]
+
+            with sqlite3.connect(self.db_file) as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO test_tasks (
+                        task_number, flavor, server_count
+                    ) VALUES (?, ?, ?)
+                """, (
+                    task_number,
+                    flavor,
+                    server_count
+                ))
+                conn.commit()
+                logger.info(f"Saved test task data to database")
+        except sqlite3.Error as e:
+            logger.error(f"Failed to save task data: {e}")
+            raise e
+
+    def save_test_report_data(self, **kwargs) -> None:
+        """Saves test report data to the database."""
+        try:
+            task_id = kwargs["task_id"]
+            instance_id = kwargs["instance_id"]
+            ip_address = kwargs["ip_address"]
+            cpu_model = kwargs["cpu"]
+            ram_size = kwargs["ram"]
+            disk_info = kwargs["disk"]
+            disk_count = kwargs["disk_count"]
+            ping_result = kwargs["ping"]
+            speed_result = kwargs["speed"]
+            console_info = kwargs["console_ok"]
+
+            with sqlite3.connect(self.db_file) as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO server_reports (
+                        task_id, instance_id, ip_address, cpu_model, ram, disk_info, disk_count, ping_result,
+                        speed_result, console_info
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    task_id,
+                    instance_id,
+                    ip_address,
+                    cpu_model,
+                    ram_size,
+                    disk_info,
+                    disk_count,
+                    ping_result,
+                    speed_result,
+                    console_info
+                ))
+                conn.commit()
+                logger.info(f"Saved test report data to database")
+        except sqlite3.Error as e:
+            logger.error(f"Failed to save report data: {e}")
             raise e
