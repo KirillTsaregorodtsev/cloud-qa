@@ -24,7 +24,8 @@ PROJECT_ID = 309102
 OFFSET = 0
 NUMBER_OF_SERVERS = 1
 SSH_KEY_NAME = "qa-chk-bare"
-SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(Path.home() / "Downloads/qa-chk-bare"))
+default_key_path = Path.home() / "Downloads" / "qa-chk-bare"
+SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(default_key_path))
 
 #=============================INIT SETTINGS FOR PROJECT=======================================
 PROJECT_ROOT = get_project_root()
