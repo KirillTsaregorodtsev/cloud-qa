@@ -18,8 +18,8 @@ def get_project_root() -> Path:
 
 #=============================INIT SETTINGS FOR TESTS=======================================
 JIRA_TASK_ID = "GCLOUD2-18858"
-FLAVOR = "bm1-hf-medium"
-REGION_ID = RegionID.Manassas
+FLAVOR = "bm3-infrastructure-small"
+REGION_ID = RegionID.ED_16
 PROJECT_ID = 309102
 OFFSET = 0
 NUMBER_OF_SERVERS = 1
