@@ -27,6 +27,9 @@ SSH_KEY_NAME = "qa-chk-bare"
 default_key_path = Path.home() / "Downloads" / "qa-chk-bare"
 SSH_KEY_PATH = os.getenv("KEY_PAIR_PATH", str(default_key_path))
 
+#=============================INIT SETTINGS FOR GPU CLUSTERS==================================
+INSTANCES_COUNT = 1
+
 #=============================INIT SETTINGS FOR PROJECT=======================================
 PROJECT_ROOT = get_project_root()
 MAX_WORKERS = os.getenv("MAX_WORKERS", 5)
