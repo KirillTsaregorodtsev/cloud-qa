@@ -45,6 +45,7 @@ def setup_logger(name: str = __name__, log_file: Optional[str] = None) -> loggin
             logger.debug(f"Creating FileHandler for: {absolute_log_file}")
             file_handler = logging.FileHandler(absolute_log_file, encoding='utf-8')
             file_handler.setLevel(logging.DEBUG)
+            file_handler.filemode = 'w'
             file_handler.setFormatter(formatter)
             root_logger.addHandler(file_handler)
             logger.debug(f"FileHandler added for: {absolute_log_file}")
