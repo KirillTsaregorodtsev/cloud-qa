@@ -10,6 +10,7 @@ class RegionID(IntEnum):
     Dubai = 116
     DX1_2 = Dubai
     Frankfurt = 38
+    Frankfurt_2 = 180
     London = 104
     Luxembourg = 6
     ED_9 = Luxembourg
@@ -35,6 +36,8 @@ class RegionID(IntEnum):
     San_Paulo_2 = 124
     ASP3_2 = San_Paulo_2
     Singapore = 18
+    Sines_2 = 164
+    Sines_3 = 176
     Sydney = 88
     SY4_2 = Sydney
     Tashkent = 136
