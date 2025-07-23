@@ -10,33 +10,27 @@ from src.infrastructure.server_checks import (
     check_config_over_ssh,
     check_console,
     check_ping_google,
-    check_speed_test, count_physical_disk
+    check_speed_test, 
+    count_physical_disk
 )
 from src.config.settings import TMP_PATH, JIRA_TASK_ID
 
 logger = logging.getLogger(__name__)
 
-<<<<<<< HEAD
-def create_one_server(server_id: int, db: Database = None) -> None:
-=======
 
-def check_server(server_id: int, instance_id="xxx", ip_address="xxx") -> None:
->>>>>>> 549c3b8 (refactor server tasks;)
+def check_server(server_id: int, instance_id="xxx", ip_address="xxx", db=None) -> None:
     """
     Checks the server with the given ID and returns data for reporting.
 
-<<<<<<< HEAD
     Returns:
         Dictionary with report data: server_id, status, created_at, error, details,
         cpu, ram, disk, console_ok, ping, speed.
         :param server_id: Unique identifier for the server.
         :param db: Reports database.
-=======
     Args:
         :param server_id: Unique identifier for the server.
         :param instance_id: Unique identifier for the instance.
         :param ip_address: IP address of the server to check.
->>>>>>> 549c3b8 (refactor server tasks;)
     """
     result = {
         "server_id": str(server_id),
@@ -56,7 +50,7 @@ def check_server(server_id: int, instance_id="xxx", ip_address="xxx") -> None:
         db = Database()
 
     try:
-<<<<<<< HEAD
+
         # Create server
         task_ids = send_baremetal_create_request(server_id)
         task = wait_for_task_sync(task_ids.tasks[0], sleep_sec=10)
@@ -69,8 +63,7 @@ def check_server(server_id: int, instance_id="xxx", ip_address="xxx") -> None:
         logger.info(f"Sleeping {sleep_sec} seconds to let instance {instance_id} boot")
         sleep(sleep_sec)
 
-=======
->>>>>>> 549c3b8 (refactor server tasks;)
+
         # Perform checks
         config = check_config_over_ssh(ip_address, instance_id)
         disk_count = count_physical_disk(ip_address, instance_id)
