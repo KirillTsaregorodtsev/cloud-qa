@@ -1,17 +1,28 @@
 from enum import IntEnum
 
 
-class RegionID(IntEnum):
+class Region(IntEnum):
     Almaty = 46
     KAL_2 = Almaty
     Amsterdam = 26
+    Darmstadt_2 = 132
+    DARZ_3 = Darmstadt_2
     DRA4_2 = Amsterdam
     Chicago = 68
     Dubai = 116
     DX1_2 = Dubai
-    Frankfurt = 38
     Frankfurt_2 = 180
+    FRN_2 = Frankfurt_2
+    Incheon = 140
+    NHN_2 = Incheon
+    Istanbul = 50
+    TII_2 = Istanbul
+    Johannesburg = 84
+    Lefdal = 192
+    NDNL_2 = Lefdal
     London = 104
+    London_2 = 196
+    NDLO_2 = London_2
     Luxembourg = 6
     ED_9 = Luxembourg
     Luxembourg_2 = 76
@@ -21,13 +32,10 @@ class RegionID(IntEnum):
     Manassas = 14
     ANX_2 = Manassas
     Hong_Kong = 64
-    Inchon = 140
     Mumbai = 108
     WW_2 = Mumbai
     Helsinki = 152
-    Istanbul = 50
-    TII_2 = Istanbul
-    Johannesburg = 84
+    TH_2 = Helsinki
     Paris_2 = 100
     Santa_Clara = 34
     SCL2 = Santa_Clara
